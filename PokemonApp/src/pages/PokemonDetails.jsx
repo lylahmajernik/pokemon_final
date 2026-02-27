@@ -110,6 +110,7 @@ const toggleTeam = () => {
                         <button onClick={toggleFavorite}>
                             {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
                         </button>
+                        {/* Used ai to help with random function */}
                         <button onClick={() => {
                             const randomId = Math.floor(Math.random() * 1010) + 1;
                             navigate(`/pokemon-details/${randomId}`);
