@@ -1,0 +1,91 @@
+/* AI GENERATED CSS */
+
+.pokemon-details {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+.pokemon-info {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.pokemon-info h1 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.pokemon-info img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.pokemon-info p {
+  margin: 10px 0;
+  color: #555;
+  font-size: 16px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.button-group button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.button-group button:hover {
+  background-color: #0056b3;
+}
+
+.team-message {
+  color: #4CAF50;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.team-message.error {
+  color: #ff6b6b;
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.error-message {
+  padding: 20px;
+  color: #ff6b6b;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .pokemon-info img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

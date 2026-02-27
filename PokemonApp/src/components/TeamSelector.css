@@ -1,0 +1,36 @@
+/* AI GENERATED CSS */
+
+.team-selector {
+  margin-bottom: 20px;
+}
+
+.team-selector h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: #333;
+}
+
+.team-selector-empty {
+  padding: 10px;
+  color: #666;
+  font-style: italic;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .team-selector h2 {
+    font-size: 20px;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
