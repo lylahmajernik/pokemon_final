@@ -1,20 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PokemonList from "../components/PokemonList";
-import { useAppContext } from "../context/AppContext";
 // AI used to help format doccument and add labeling
 
 function Favorites() {
-  const { favorites, removeFromFavorites, addToTeam: contextAddToTeam } = useAppContext();
+  const [favorites, setFavorites] = useState([]);
   const [teamMessage, setTeamMessage] = useState("");
 
-  const handleAddToTeam = (pokemon) => {
-    const res = contextAddToTeam({ id: pokemon.id, name: pokemon.name, sprite: pokemon.sprite });
-    if (!res.ok) {
-      if (res.reason === "already") setTeamMessage("Already on team");
-      else if (res.reason === "full") setTeamMessage("Team full");
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(saved);
+  }, []);
+
+  const removeFromFavorites = (id) => {
+    const updated = favorites.filter((fav) => fav.id !== id);
+    setFavorites(updated);
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
+
+  const addToTeam = (pokemon) => {
+    const currentTeam = JSON.parse(localStorage.getItem("myTeam")) || [];
+    if (currentTeam.some((p) => p.id === pokemon.id)) {
+      setTeamMessage("Already on team");
       setTimeout(() => setTeamMessage(""), 2000);
       return;
     }
+    if (currentTeam.length >= 6) {
+      setTeamMessage("Team full");
+      setTimeout(() => setTeamMessage(""), 2000);
+      return;
+    }
+    const updatedTeam = [...currentTeam, { id: pokemon.id, name: pokemon.name, sprite: pokemon.sprite }];
+    localStorage.setItem("myTeam", JSON.stringify(updatedTeam));
     setTeamMessage(`${pokemon.name} added to team`);
     setTimeout(() => setTeamMessage(""), 2000);
   };
@@ -27,7 +43,7 @@ function Favorites() {
         showRemoveButton={true}
         onRemove={removeFromFavorites}
         showAddButton={true}
-        onAdd={handleAddToTeam}
+        onAdd={addToTeam}
         emptyMessage="No favorite Pokemon yet."
       />
       {teamMessage && (
