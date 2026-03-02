@@ -36,7 +36,27 @@ function EnemySearch({ onEnemyFetch }) {
 
   const handleRandomize = () => {
     const randomId = Math.floor(Math.random() * 1010) + 1;
-    handleSearch({ preventDefault: () => {}, target: { value: randomId } });
+
+    // fetch by random id directly instead of trying to fake an event
+    (async () => {
+      try {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+        if (!res.ok) throw new Error("Not found");
+        const data = await res.json();
+        onEnemyFetch({
+          id: data.id,
+          name: data.name,
+          sprite: data.sprites.front_default,
+          height: data.height,
+          weight: data.weight,
+          baseExperience: data.base_experience,
+          level: Math.floor(Math.random() * 50) + 50,
+          statsTotal: data.stats.reduce((sum, s) => sum + s.base_stat, 0),
+        });
+      } catch {
+        onEnemyFetch(null);
+      }
+    })();
   };
 
   return (

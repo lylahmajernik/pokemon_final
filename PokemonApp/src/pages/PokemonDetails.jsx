@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import "./PokemonDetails.css";
+import { useAppContext } from "../context/AppContext";
 // After code was written, asked AI to format doc logically & label
 
 
@@ -12,10 +13,7 @@ function PokemonDetails() {
     const [pokemon, setPokemon] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // ✅ favorites state defined here
-    const [favorites, setFavorites] = useState(
-        JSON.parse(localStorage.getItem("favorites")) || []
-    );
+    const { favorites, addFavorite, removeFavorite, myTeam, addToTeam, removeFromTeam } = useAppContext();
 
     // Fetch Pokemon data
     useEffect(() => {
@@ -45,53 +43,32 @@ function PokemonDetails() {
 
     const toggleFavorite = () => {
         if (!pokemon) return;
-
-        let updatedFavorites;
         if (favorites.some(fav => fav.id === pokemon.id)) {
-            // Remove from favorites
-            updatedFavorites = favorites.filter(fav => fav.id !== pokemon.id);
+            removeFavorite(pokemon.id);
         } else {
-            // Add to favorites
-            updatedFavorites = [
-                ...favorites,
-                {
-                    id: pokemon.id,
-                    name: pokemon.name,
-                    sprite: pokemon.sprites.front_default
-                }
-            ];
+            addFavorite({ id: pokemon.id, name: pokemon.name, sprite: pokemon.sprites.front_default });
         }
-
-        setFavorites(updatedFavorites);
-        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     };
 
-    const isFavorite = pokemon && favorites.some(fav => fav.id === pokemon.id);
-    const [teamMessage, setTeamMessage] = useState("");
+        const isFavorite = pokemon && favorites.some(fav => fav.id === pokemon.id);
+        const [teamMessage, setTeamMessage] = useState("");
 
-const toggleTeam = () => {
-  if (!pokemon) return;
-  const currentTeam = JSON.parse(localStorage.getItem("myTeam")) || [];
-
-  if (!currentTeam.some(p => p.id === pokemon.id) && currentTeam.length >= 6) {
-    setTeamMessage("Your team can only have 6 Pokemon!");
-    return;
-  }
-
-  let updatedTeam;
-  if (currentTeam.some(p => p.id === pokemon.id)) {
-    updatedTeam = currentTeam.filter(p => p.id !== pokemon.id);
-    setTeamMessage(`${pokemon.name} removed from team`);
-  } else {
-    updatedTeam = [...currentTeam, { id: pokemon.id, name: pokemon.name, sprite: pokemon.sprites.front_default }];
-    setTeamMessage(`${pokemon.name} added to team`);
-  }
-
-  localStorage.setItem("myTeam", JSON.stringify(updatedTeam));
-
-  // Clear message after 2 seconds
-  setTimeout(() => setTeamMessage(""), 2000);
-};
+        const toggleTeam = () => {
+            if (!pokemon) return;
+            if (myTeam.some(p => p.id === pokemon.id)) {
+                removeFromTeam(pokemon.id);
+                setTeamMessage(`${pokemon.name} removed from team`);
+            } else {
+                const res = addToTeam({ id: pokemon.id, name: pokemon.name, sprite: pokemon.sprites.front_default });
+                if (!res.ok) {
+                    setTeamMessage(res.reason === "full" ? "Your team can only have 6 Pokemon!" : "Already on team");
+                    setTimeout(() => setTeamMessage(""), 2000);
+                    return;
+                }
+                setTeamMessage(`${pokemon.name} added to team`);
+            }
+            setTimeout(() => setTeamMessage(""), 2000);
+        };
     
     return (
         <div className="pokemon-details">
