@@ -14,7 +14,7 @@ function PokemonCard({ pokemon, isSelected = false, onClick, showRemoveButton = 
     </>
   );
 
-// Wanted to reuse this component on all pages, had AI help me figure out how to disable link
+// Wanted to reuse this component on all pages, so had AI help me figure out how to disable link
 // on the battle page specifically bc it would always link to details page
   const content = disableLink ? (
     <div>{cardContent}</div>

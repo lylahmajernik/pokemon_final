@@ -37,7 +37,7 @@ function EnemySearch({ onEnemyFetch }) {
   const handleRandomize = () => {
     const randomId = Math.floor(Math.random() * 1010) + 1;
 
-    // fetch by random id directly instead of trying to fake an event
+    // Local build was working but vercel was failing, needed to debug to change this to a random fetch instead of an event. 
     (async () => {
       try {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
