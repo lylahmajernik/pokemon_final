@@ -17,7 +17,7 @@ function BattleDisplay({ selectedPokemon, selectedData, enemy, result, onFight }
               <p>Stats Total: {selectedData.statsTotal}</p>
             </>
           ) : (
-            <p>Select a Pokemon to start</p>
+            <p>Add Pokemon to your team to start</p>
           )}
         </div>
 

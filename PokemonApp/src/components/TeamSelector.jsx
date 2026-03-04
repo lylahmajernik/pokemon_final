@@ -1,24 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PokemonCard from "./PokemonCard";
+import { useAppContext } from "../context/AppContext";
 import "./TeamSelector.css";
 // AI Used to help with div placement/classnames for css
 
 
 function TeamSelector({ onPokemonSelect }) {
-  const [team, setTeam] = useState([]);
+  const { myTeam: team } = useAppContext();
   const [selectedId, setSelectedId] = useState(null);
-
-  useEffect(() => {
-    const savedTeam = JSON.parse(localStorage.getItem("myTeam")) || [];
-    setTeam(savedTeam);
-  }, []);
 
   const handleSelect = (pokemon) => {
     setSelectedId(pokemon.id);
     onPokemonSelect(pokemon);
   };
 
-  if (!team.length) {
+  if (!team || !team.length) {
     return <p className="team-selector-empty">No Pokemon in your team. Go to My Team to add some!</p>;
   }
 

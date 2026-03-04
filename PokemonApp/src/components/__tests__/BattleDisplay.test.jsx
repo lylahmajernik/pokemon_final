@@ -28,7 +28,7 @@ describe("BattleDisplay Component", () => {
         onFight={mockFight}
       />
     );
-    expect(screen.getByText("Select a Pokemon to start")).toBeInTheDocument();
+    expect(screen.getByText("Add Pokemon to your team to start")).toBeInTheDocument();
   });
 
   it("should render Fight button", () => {

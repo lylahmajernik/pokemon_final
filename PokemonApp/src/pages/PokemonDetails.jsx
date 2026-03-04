@@ -95,10 +95,7 @@ function PokemonDetails() {
                             Random Pokemon
                         </button>
                         <button onClick={toggleTeam}>
-                            {pokemon &&
-                             JSON.parse(localStorage.getItem("myTeam") || "[]").some(p => p.id === pokemon.id)
-                               ? "Remove from Team 👥"
-                               : "Add to Team 👥"}
+                            {pokemon && myTeam && myTeam.some(p => p.id === pokemon.id) ? "Remove from Team 👥" : "Add to Team 👥"}
                         </button>
                     </div>
                     {teamMessage && <p className={`team-message ${teamMessage.includes("only") ? "error" : ""}`}>{teamMessage}</p>}
